@@ -204,20 +204,13 @@ frontier_oldQ = CQueue();
 if (frontierQ.isempty()) % if queue is empty
     route = [];
 else
-    
-    frontier_oldQ.pop();
+%   
     sz = frontier_oldQ.size();
-    k = sz;
     for r = 1:sz
-        k = k -1;    
-        route(k+1) = frontier_oldQ.pop();
+        route(r) = frontier_oldQ.pop();
     end
-end
-
+%     route = frontier_oldQ.content();
     
-    
-    
-
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Construct final route
@@ -234,7 +227,7 @@ end
         drawnow;
     end
 end
-
+end
 
 
     
