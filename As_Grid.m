@@ -31,8 +31,9 @@ cmap = [ 1 1 1; ... % White - 1
          0 0 0; ... % Black - 2
          1 0 0; ... % Red - 3
          0 0 1; ... % Blue - 4 
-         1 1 0; ... % Yellow - 5
-         0.5 0.5 0.5]; %Grey - 6
+         0 1 0; ... % Green - 5
+         1 1 0; ... % Yellow - 6
+         0.5 0.5 0.5]; %Grey - 7
 
 colormap(cmap);
 
@@ -109,13 +110,15 @@ while true
     
     frontierNode = frontierList.front();
     heuristicNode = heuristicList.front();
+    map(frontierNode) = 3;
+    Visited_Frontier = frontierNode;
+    
     if (frontierNode==goal_node)
 
             break;
 
     end
-        
-    map(frontierNode) = 3;
+    
 
     
     [i j] = ind2sub(size(map), frontierNode);
@@ -189,18 +192,18 @@ while true
             heuristicNode_old = heuristicNode;
             heuristicNode = heuristic(neighbor);
            
-            frontierList.pushtofront(neighbor);
-            heuristicList.pushtofront(heuristic(neighbor)); 
-            Visited_Frontier = [Visited_Frontier neighbor];
+            
+            
             
             if (heuristicNode > heuristicNode_old)
                 frontierList.popfront()
                 heuristicList.popfront()
             end
             
+            frontierList.pushtofront(neighbor);
+            heuristicList.pushtofront(heuristic(neighbor));
             
-            
-
+            Visited_Frontier = [Visited_Frontier neighbor];
    % Update the map color
             if (map(neighbor) ~= 6) % if it's not the goal
                 map(neighbor) = 4;   % mark neighbor with blue (to be explored)
@@ -227,31 +230,25 @@ while true
        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% Construct route by following path from start to goal by following parents links
-    if (frontierList.empty()) % if queue is empty
-        route = [];
-    else
+        if (frontierList.empty()) % if queue is empty
+            route = [];
+        else
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Construct final route
-        route  = Visited_Frontier;
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Visualize map and path
-        for k = 2 : length(route) - 1
-            map(route(k)) = 7;  %draw route in grey
-            pause(0.5);
-            image(1.5,1.5,map)
-            grid on; % show grid
-            axis image;
-            drawnow;
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Construct final route
+            route  = Visited_Frontier;
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Visualize map and path
+            for k = 2 : length(route) - 1
+                map(route(k)) = 7;  %draw route in grey
+                pause(0.5);
+                image(1.5,1.5,map)
+                grid on; % show grid
+                axis image;
+                drawnow;
+            end
+
         end
-
-
-
-
-
-
-
-    end
 end
 end
 

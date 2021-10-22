@@ -31,9 +31,10 @@ cmap = [ 1 1 1; ... % White - 1
          0 0 0; ... % Black - 2
          1 0 0; ... % Red - 3
          0 0 1; ... % Blue - 4 
-         1 1 0; ... % Yellow - 5
-         0.5 0.5 0.5]; %Grey - 6
-
+         0 1 0; ... % Green - 5
+         1 1 0; ... % Yellow - 6
+         0.5 0.5 0.5]; %Grey - 7
+     
 colormap(cmap);
 
 % Assign nrows and ncols to the size of input map
