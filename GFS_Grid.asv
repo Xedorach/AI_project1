@@ -132,7 +132,7 @@ while true
                 row = i+1; col = j;
        
             end
-          
+         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % Check if neighbor is inside the map
             if (row < 1 || row > nrows) % if row outside the map
@@ -153,6 +153,7 @@ while true
                     break
                 end
             end
+            
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             % skip if it’s an obstacle
             % for easy handling
@@ -167,7 +168,7 @@ while true
                     break
                 end
             end
-        
+            
             
             if(any(Visited_Frontier == neighbor))
                 if n < 4  % if there are other neighbors to check
@@ -180,11 +181,16 @@ while true
             
             numExpanded = numExpanded + 1;
             
-            neighbor
+            heuristicNode_old = heuristicNode;
+            heuristicNode = heuristic(neighbor);
+            
+            
+            
             frontierList.pushtofront(neighbor);
-
             heuristicList.pushtofront(heuristic(neighbor)); 
-            Visited_Frontier = [ Visited_Frontier neighbor]
+            Visited_Frontier = [Visited_Frontier neighbor];
+            
+            
 
    % Update the map color
             if (map(neighbor) ~= 6) % if it's not the goal
