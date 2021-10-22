@@ -319,7 +319,7 @@ function [route,numExpanded] = DFS_Grid(input_map,start_coords,goal_coords,drawM
 
             % Update the map color
 
-            if (map(neighbor) ~= 6); % if it's not the goal
+            if (map(neighbor) ~= 6) % if it's not the goal
 
                 map(neighbor) = 4;   % mark neighbor with blue (to be explored)
 
