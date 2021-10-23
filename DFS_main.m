@@ -2,8 +2,6 @@ clear;
 
 close all;
 
-
-
 %Create a 10x5 map filled with zeros (empty cells)
 
 map = false(10,5);

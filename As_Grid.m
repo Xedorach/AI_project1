@@ -55,12 +55,20 @@ map(input_map)  = 2;
 map(start_node) = 5; %Green
 map(goal_node)  = 6; %Yellow
 
+
+%     Acquire map dimensions to be used for heuristic function calculations
+%     X Y coordinates of goal used in heuristic function calculation to 
+%     calculate manhattan distance
+   
 numExpanded = 0; %Init number of nodes expanded to 0
 goal_x = goal_coords(1);
 goal_y = goal_coords(2);   
 maxMapIndex = nrows*ncols;
 heuristic_grid = zeros(nrows,ncols);
-numExpanded = 0;
+
+%   Initialize frontier values
+
+
 Visited_Frontier = start_node;
 frontierList = CList(start_node);
 frontierNode = frontierList.front();
@@ -79,7 +87,7 @@ end
     
 
 
-
+% Initializing Frontier values
 
 heuristicNode = heuristic(start_coords(1),start_coords(2));
 heuristicList = CList(heuristicNode);
@@ -107,6 +115,9 @@ while true
         axis image;
         drawnow;
     end
+    
+%     Frontier node and heuristic update together to keep them positionally
+%     tied. first value in both list correspond to same point
     
     frontierNode = frontierList.front();
     heuristicNode = heuristicList.front();
@@ -185,7 +196,7 @@ while true
             %Update heuristic and frontier to match each other,
             %Comparing the heuristic value of current node and previous 
             %to check which direction to follow
-            %
+            
             
             numExpanded = numExpanded + 1;
             

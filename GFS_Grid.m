@@ -56,19 +56,29 @@ map(start_node) = 5; %Green
 map(goal_node)  = 6; %Yellow
 
 numExpanded = 0; %Init number of nodes expanded to 0
+
+%     Acquire map dimensions to be used for heuristic function calculations
+%     X Y coordinates of goal used in heuristic function calculation to 
+%     calculate manhattan distance
+   
+
 goal_x = goal_coords(1);
 goal_y = goal_coords(2);   
 maxMapIndex = nrows*ncols;
 heuristic_grid = zeros(nrows,ncols);
-numExpanded = 0;
+
+
+%     Initializing frontier values that will be used in the code 
+  
 Visited_Frontier = start_node;
 frontierList = CList(start_node);
 frontierNode = frontierList.front();
 
 
-% Heuristic function grid building to be used for along
-% regular path planning.   
-% Heuristic can be called with index as well.
+%       Heuristic function grid building to be used for along
+%       regular path planning. The dimensions of the heuristic grid 
+%       change with the input map, no hardcoding. 
+%       Heuristic can be called with index as well.
 
 for (n = 1:nrows)
      for(n2 = 1:ncols)
@@ -79,7 +89,7 @@ end
     
 
 
-
+%     Heuristic initial values
 
 heuristicNode = heuristic(start_coords(1),start_coords(2));
 heuristicList = CList(heuristicNode);
@@ -108,6 +118,8 @@ while true
         drawnow;
     end
     
+%     Update frontier and heuristic values from front of list
+    
     frontierNode = frontierList.front();
     heuristicNode = heuristicList.front();
     if (frontierNode==goal_node)
@@ -115,11 +127,16 @@ while true
             break;
 
     end
-        
-    map(frontierNode) = 3;
+
+%     Color frontierNodes red
+    map(frontierNode) = 3; 
 
     
     [i j] = ind2sub(size(map), frontierNode);
+    
+% % % %     NEIGHBOR VALIDATION LOOP
+% % % %     Heuristic and frontier lists have to be synced, so they are 
+% % % %     updated together
     
     for n = 1 : 4 % each cell usually has 4 neighbors
             % Visit every neighbor of the Frontier_node node
@@ -140,7 +157,7 @@ while true
                 if n < 4 % if there are other neighbors to check
                     continue
                 else    % n = 4 and all options are not valid so pop and break
-                    frontierList.popfront()
+                    frontierList.popfront() 
                     heuristicList.popfront()
                     break
                 end
@@ -180,7 +197,19 @@ while true
                 end
             end
             
+            
+%           Update number of steps
+            
             numExpanded = numExpanded + 1;
+            
+            
+%           Memory for heuristic value of previous point. This is to ensure
+%           that the code is always moving in the direction of least
+%           heuristic value. The heuristic of the neighbor is then tested
+%           one by one to check which one is lowest, if the heuristic value
+%           is higher it is popped from the frontier and the heuristic
+%           lists. Another method would be to push them to the back for
+%           later exploration.
             
             heuristicNode_old = heuristicNode;
             heuristicNode = heuristic(neighbor);

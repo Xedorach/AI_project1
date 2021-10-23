@@ -1,4 +1,4 @@
-%BFS main code
+%GBFS main code
 
 clc;close all
 
@@ -19,5 +19,5 @@ goal_coords = [3,2];
 
 drawMapEveryTime = true;
 
-% Apply BFS
+% Apply GBFS
 [route, step] = GFS_Grid(map,start_coords,goal_coords,drawMapEveryTime);

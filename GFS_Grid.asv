@@ -31,9 +31,10 @@ cmap = [ 1 1 1; ... % White - 1
          0 0 0; ... % Black - 2
          1 0 0; ... % Red - 3
          0 0 1; ... % Blue - 4 
-         1 1 0; ... % Yellow - 5
-         0.5 0.5 0.5]; %Grey - 6
-
+         0 1 0; ... % Green - 5
+         1 1 0; ... % Yellow - 6
+         0.5 0.5 0.5]; %Grey - 7
+     
 colormap(cmap);
 
 % Assign nrows and ncols to the size of input map
@@ -55,19 +56,29 @@ map(start_node) = 5; %Green
 map(goal_node)  = 6; %Yellow
 
 numExpanded = 0; %Init number of nodes expanded to 0
+
+%     Acquire map dimensions to be used for heuristic function calculations
+%     X Y coordinates of goal used in heuristic function calculation to 
+%     calculate manhattan distance
+   
+
 goal_x = goal_coords(1);
 goal_y = goal_coords(2);   
 maxMapIndex = nrows*ncols;
 heuristic_grid = zeros(nrows,ncols);
-numExpanded = 0;
+
+
+%     Initializing frontier values that will be used in the code 
+  
 Visited_Frontier = start_node;
 frontierList = CList(start_node);
 frontierNode = frontierList.front();
 
 
-% Heuristic function grid building to be used for along
-% regular path planning.   
-% Heuristic can be called with index as well.
+%       Heuristic function grid building to be used for along
+%       regular path planning. The dimensions of the heuristic grid 
+%       change with the input map, no hardcoding. 
+%       Heuristic can be called with index as well.
 
 for (n = 1:nrows)
      for(n2 = 1:ncols)
@@ -78,7 +89,7 @@ end
     
 
 
-
+%     Heuristic initial values
 
 heuristicNode = heuristic(start_coords(1),start_coords(2));
 heuristicList = CList(heuristicNode);
@@ -107,6 +118,8 @@ while true
         drawnow;
     end
     
+%     Update frontier and heuristic values from front of list
+    
     frontierNode = frontierList.front();
     heuristicNode = heuristicList.front();
     if (frontierNode==goal_node)
@@ -114,11 +127,14 @@ while true
             break;
 
     end
-        
-    map(frontierNode) = 3;
+
+%     Color frontierNodes red
+    map(frontierNode) = 3; 
 
     
     [i j] = ind2sub(size(map), frontierNode);
+    
+% % % %     NEIGHBOR VALIDATION LOOP
     
     for n = 1 : 4 % each cell usually has 4 neighbors
             % Visit every neighbor of the Frontier_node node
@@ -183,12 +199,16 @@ while true
             
             heuristicNode_old = heuristicNode;
             heuristicNode = heuristic(neighbor);
-            
-            
-            
+           
             frontierList.pushtofront(neighbor);
             heuristicList.pushtofront(heuristic(neighbor)); 
             Visited_Frontier = [Visited_Frontier neighbor];
+            
+            if (heuristicNode > heuristicNode_old)
+                frontierList.popfront()
+                heuristicList.popfront()
+            end
+            
             
             
 
